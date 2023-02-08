@@ -5,6 +5,8 @@ import json
 config = configparser.ConfigParser()
 config.read('config.ini')
 
+this is a test
+
 
 API_KEY = config['API']['KEY']
 
