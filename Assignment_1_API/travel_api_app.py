@@ -1,45 +1,36 @@
-# from Assignment_1_API.models import OpenWeather as OpenWeather
-# from Assignment_1_API.models import LocationsClass as Locations
+# import requests
+# import json
+# import models.LocationsClass as Locations
+# import models.OpenWeather as OpenWeather
 # import threading
 # import time
 #
-# # Creates a new list of locations object
+# # creates a blank list of locations
 # travel_locations = Locations.ListOfLocations()
 #
 #
 # def load_locations():
-#     travel_locations.addLocation(Locations.Location(
-#         'Lake District National Park', 54.4609, 3.0886))
-#     travel_locations.addLocation(Locations.Location(
-#         'Corfe Castle', 50.6395, 2.0566))
-#     travel_locations.addLocation(Locations.Location(
-#         'The Cotswolds', 51.8330, 1.8433))
-#     travel_locations.addLocation(Locations.Location(
-#         'Cambridge', 52.2053, 0.1218))
-#     travel_locations.addLocation(Locations.Location(
-#         'Bristol', 51.4545, 2.5879))
-#     travel_locations.addLocation(Locations.Location(
-#         'Oxford', 51.7520, 1.257))
-#     travel_locations.addLocation(Locations.Location(
-#         'Norwich', 52.6309, 1.2974))
-#     travel_locations.addLocation(Locations.Location(
-#         'Stonehenge', 51.1789, 1.8262))
-#     travel_locations.addLocation(Locations.Location(
-#         'Watergate Bay', 50.4429, 5.0553))
-#     travel_locations.addLocation(Locations.Location(
-#         'Birmingham', 52.4862, 1.8904))
+#     # url to get the travel locations from
+#     response = requests.get("http://127.0.0.1:8000/app/load_locations/")
 #
-#     # add the location weather to the location object
-#     for location in travel_locations.getLocations():
-#         weather = OpenWeather.getWeatherByCoordinates(location.lat, location.lon)
+#     if response.status_code == 200:
+#         locations = json.loads(response.content)
 #
-#         # if weather is of type Weather
-#         if isinstance(weather, OpenWeather.Weather):
-#             location.current_weather = weather
-#         else:
-#             location.current_weather = "weather not found"
+#         for location in locations:
+#             new_location = Locations.Location(location['name'], location['latitude'], location['longitude'])
+#             travel_locations.addLocation(new_location)
 #
+#         # add the location weather to the location object
+#         for location in travel_locations.getLocations():
+#             weather = OpenWeather.getWeatherByCoordinates(location.lat, location.lon)
 #
+#             # if weather is of type Weather
+#             if isinstance(weather, OpenWeather.Weather):
+#                 location.current_weather = weather
+#             else:
+#                 location.current_weather = "weather not found"
+#
+# print("Welcome to the Travel App! This app will help you plan your next trip!")
 # print("Loading travel locations, please wait...")
 #
 # # Start the loading process in a separate thread
@@ -55,7 +46,6 @@
 #     time.sleep(0.2)
 #
 # print("\rData locations successfully!     ")
-#
 #
 # exit_program = False
 #
@@ -78,9 +68,9 @@
 #
 #     while travel_locations.getNumberOfLocations() > 0:
 #
-#         user_input = int(input("Please enter the number of the location you would like to visit next: "))
+#         user_input = int(input("Please enter the number of the next location you would like to visit next: "))
 #
-#         if user_input > travel_locations.getNumberOfLocations():
+#         while user_input > travel_locations.getNumberOfLocations():
 #             print("Please enter a valid number.")
 #             user_input = int(input("Please enter the number of the location you would like to visit next: "))
 #             continue
@@ -91,6 +81,8 @@
 #         print("Great choice! I like your style!")
 #
 #         for i in range(travel_locations.getNumberOfLocations()):
+#             if i == 0:
+#                 print("Here are the remaining locations:")
 #             location = travel_locations.getLocation(i)
 #             print(f'{i} - {location.name} - {location.current_weather.weather_description}')
 #

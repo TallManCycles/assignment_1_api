@@ -1,13 +1,13 @@
 import requests
 import json
 import configparser
-from Weather import Weather
-from Locations import Location
+from Assignment_1_API.models.WeatherClass import Weather
+from Assignment_1_API.models.LocationsClass import Location
 
 # API KEY CONSTANT
-config = configparser.ConfigParser()
-config.read('config.ini')
-API_KEY = config['API']['KEY']
+API_KEY = ''
+with open("Assignment_1_API/api_key.txt", "r") as file:
+    API_KEY = file.read()
 
 
 def getWeatherByCoordinates(lat, lon):

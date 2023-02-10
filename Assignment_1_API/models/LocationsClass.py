@@ -1,6 +1,4 @@
-import Weather
 
-# Create a class for a location
 class Location:
     def __init__(self, name, lat, lon, current_weather=None):
         self.name = name
@@ -47,6 +45,3 @@ class ListOfLocations:
 #     remove a location from the list
     def removeLocation(self, location):
         self.locations.remove(location)
-
-
-
