@@ -1,3 +1,4 @@
+import math
 
 class Location:
     def __init__(self, name, lat, lon, current_weather=None):
@@ -42,6 +43,27 @@ class ListOfLocations:
                 return location
         return None
 
+#     returns true if the location is in the list
+    def containsLocation(self, location):
+        for l in self.locations:
+            if l.name == location.name:
+                return True
+        return False
+
 #     remove a location from the list
     def removeLocation(self, location):
         self.locations.remove(location)
+
+    # Return the closes location to the specified location
+    def next_closest_location(self, current_location):
+        closest_location = Location("", 0, 0)
+        closest_distance = float('inf')
+        for location in self.locations:
+            lat1, lon1 = current_location.lat, current_location.lon
+            lat2, lon2 = location.lat, location.lon
+            distance = math.sqrt((lat1 - lat2)**2 + (lon1 - lon2)**2)
+            if distance < closest_distance:
+                closest_distance = distance
+                closest_location = location
+
+        return closest_location

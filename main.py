@@ -56,29 +56,15 @@ while not exit_program:
         location = travel_locations.getLocation(i)
         print(f'{i} - {location.name} - {location.current_weather.weather_description}')
 
-    while True:
-        try:
-            user_input = int(input("Please enter the number of the next location you would like to visit next: "))
-            if user_input > travel_locations.getNumberOfLocations():
-                print("Please enter a valid number.")
-            else:
-                break
-        except ValueError:
-            print("Please enter a valid number.")
 
-    # create a new list of locations, and add the location the user selected to the top of the list
     new_travel_locations = Locations.ListOfLocations()
 
-    new_travel_locations.addLocation(travel_locations.getLocation(user_input))
-    travel_locations.removeLocation(travel_locations.getLocation(user_input))
-
-    print("Nice! I like your style!")
 
     while travel_locations.getNumberOfLocations() > 0:
 
         while True:
             try:
-                user_input = int(input("Please enter the number of the next location you would like to visit next: "))
+                user_input = int(input("Please enter the number of the location you would like to visit: "))
                 if user_input > travel_locations.getNumberOfLocations():
                     print("Please enter a valid number.")
                 else:
@@ -86,10 +72,13 @@ while not exit_program:
             except ValueError:
                 print("Please enter a valid number.")
 
-        new_travel_locations.addLocation(travel_locations.getLocation(user_input))
-        travel_locations.removeLocation(travel_locations.getLocation(user_input))
+        current_location = travel_locations.getLocation(user_input)
 
-        print("Great choice! I like your style!")
+        new_travel_locations.addLocation(current_location)
+        travel_locations.removeLocation(current_location)
+
+        print("Nice! I like your style!")
+
 
         for i in range(travel_locations.getNumberOfLocations()):
             if i == 0:
@@ -97,14 +86,36 @@ while not exit_program:
             location = travel_locations.getLocation(i)
             print(f'{i} - {location.name} - {location.current_weather.weather_description}')
 
-        show_itinery = input('Would you like to see your current itinerary? (y/n)')
-        if show_itinery == 'y':
-            print("Your current itinerary is:")
-            for i in range(new_travel_locations.getNumberOfLocations()):
-                location = new_travel_locations.getLocation(i)
-                print(f'{location.name} - {location.current_weather.weather_description}')
-        else:
-            print("Okay, we'll continue.")
+        next_location = 'y'
+
+        while next_location == 'y':
+            closest_location = travel_locations.next_closest_location(
+                new_travel_locations.getLocation(new_travel_locations.getNumberOfLocations() - 1))
+
+            # check if closest_location is empty
+            if closest_location.name == '':
+                break
+
+            next_location = input(f"The closest location to your current location is {closest_location.name}. Would you like to go there next? (y/n)")
+            if next_location == 'y':
+                new_travel_locations.addLocation(closest_location)
+
+                if travel_locations.containsLocation(closest_location):
+                    travel_locations.removeLocation(closest_location)
+
+                print("Great choice! I like your style!")
+            else:
+                print("Okay, we'll continue.")
+
+
+    show_itinery = input('Would you like to see your current itinerary? (y/n)')
+    if show_itinery == 'y':
+        print("Your current itinerary is:")
+        for i in range(new_travel_locations.getNumberOfLocations()):
+            location = new_travel_locations.getLocation(i)
+            print(f'{location.name} - {location.current_weather.weather_description}')
+    else:
+        print("Okay, we'll continue.")
 
     # ask if the user would like to end the program
     user_input = input("Would you like to exit the program? (y/n): ")
