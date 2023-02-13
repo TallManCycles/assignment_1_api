@@ -1,5 +1,6 @@
 import pytest
 import math
+import os
 from models.LocationsClass import Location, ListOfLocations
 
 
@@ -75,3 +76,33 @@ def test_next_closest_location():
 
     # check that the next closest location is correct
     assert loc_list.next_closest_location(current_loc) == loc2
+
+# Create a new test function that tests the exportLocations function
+def test_export_locations():
+    # create a new ListOfLocations object
+    loc_list = ListOfLocations()
+
+    # create three new Location objects
+    loc1 = Location("Paris", 48.8566, 2.3522)
+    loc2 = Location("New York", 40.7128, -74.0060)
+    loc3 = Location("Tokyo", 35.6895, 139.6917)
+
+    # add the locations to the list
+    loc_list.addLocation(loc1)
+    loc_list.addLocation(loc2)
+    loc_list.addLocation(loc3)
+
+    # export the locations to a file
+    loc_list.exportLocations("locations.txt")
+
+    # check that the file was created
+    assert os.path.exists("locations.txt")
+
+    # check that the file contains the correct data
+    with open("locations.txt", "r") as f:
+        lines = f.readlines()
+        assert len(lines) == 3
+
+    # Why is this giving me an FileNotFoundError: [Errno 2] No such file or directory: 'locations.txt' error?
+    # I have tried to run the test in the terminal and in the PyCharm terminal and I get the same error.
+    # a:

@@ -67,3 +67,19 @@ class ListOfLocations:
                 closest_location = location
 
         return closest_location
+
+    # Export the list of locations to a file
+    def exportLocations(self, filename):
+        with open(filename, 'w') as file:
+            for location in self.locations:
+                file.write(f'{location.name},{location.lat},{location.lon}\n')
+
+
+#     Get the location with the best weather from the list
+    def getBestWeather(self):
+        best_weather = self.locations[0].current_weather
+        for location in self.locations:
+            if location.current_weather.temp > best_weather.temp:
+                best_weather = location.current_weather
+        return best_weather
+

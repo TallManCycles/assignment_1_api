@@ -9,10 +9,16 @@ import time
 travel_locations = Locations.ListOfLocations()
 
 
+# Loads the locations and weather from the server
 def load_locations():
     # url to get the travel locations from
-    response = requests.get("http://127.0.0.1:8000/app/load_locations/")
+    try:
+        response = requests.get("http://127.0.0.1:8000/app/load_locations/")
+    except requests.exceptions.ConnectionError:
+        print("Error connecting to server. Please check your internet connection and try again.")
+        return
 
+    # if the response is successful
     if response.status_code == 200:
         locations = json.loads(response.content)
 
@@ -30,32 +36,62 @@ def load_locations():
             else:
                 location.current_weather = "weather not found"
 
-print("Welcome to the Travel App! This app will help you plan your next trip!")
-print("Loading travel locations, please wait...")
+        print("\rloaded locations successfully!     ")
 
-# Start the loading process in a separate thread
-thread = threading.Thread(target=load_locations)
-thread.start()
+    else:
+        print("Error loading locations")
 
-# Show the loading message
-loading_chars = ["-", "\\", "|", "/"]
-i = 0
-while thread.is_alive():
-    print(f"\rLoading locations... {loading_chars[i % len(loading_chars)]}", end="")
-    i += 1
-    time.sleep(0.2)
+# Creates a thread to load the locations asynchronously
+def create_thread():
+    global i
+    # Start the loading process in a separate thread
+    thread = threading.Thread(target=load_locations)
+    thread.start()
+    # Show the loading message
+    loading_chars = ["-", "\\", "|", "/"]
+    i = 0
+    while thread.is_alive():
+        print(f"\rLoading locations... {loading_chars[i % len(loading_chars)]}", end="")
+        i += 1
+        time.sleep(0.2)
 
-print("\rData locations successfully!     ")
 
-exit_program = False
-
-while not exit_program:
-
+# prints all locations and weather descriptions
+def print_locations():
+    global i, location
     # ask for input as an integer, and list all locations and weather descriptions
     for i in range(travel_locations.getNumberOfLocations()):
         location = travel_locations.getLocation(i)
         print(f'{i} - {location.name} - {location.current_weather.weather_description}')
 
+
+# exports the locations to a text file
+def export_locations():
+    new_travel_locations.exportLocations('itinerary.txt')
+    print("Your list has been exported successfully!")
+
+
+# shows the itinerary
+def show_itinerary():
+    global i, location
+    print("Your current itinerary is:")
+    for i in range(new_travel_locations.getNumberOfLocations()):
+        location = new_travel_locations.getLocation(i)
+        print(f'{location.name} - {location.current_weather.weather_description}')
+
+
+print("Welcome to the Travel App! This app will help you plan your next trip!")
+print("Loading travel locations, please wait...")
+
+# load the locations
+create_thread()
+
+exit_program = False
+
+
+while not exit_program:
+
+    print_locations()
 
     new_travel_locations = Locations.ListOfLocations()
 
@@ -79,12 +115,7 @@ while not exit_program:
 
         print("Nice! I like your style!")
 
-
-        for i in range(travel_locations.getNumberOfLocations()):
-            if i == 0:
-                print("Here are the remaining locations:")
-            location = travel_locations.getLocation(i)
-            print(f'{i} - {location.name} - {location.current_weather.weather_description}')
+        print_locations()
 
         next_location = 'y'
 
@@ -107,15 +138,16 @@ while not exit_program:
             else:
                 print("Okay, we'll continue.")
 
+    if new_travel_locations.getNumberOfLocations() != 0:
+        show_itinery = input('Would you like to see your current itinerary? (y/n)')
+        if show_itinery == 'y':
+            show_itinerary()
 
-    show_itinery = input('Would you like to see your current itinerary? (y/n)')
-    if show_itinery == 'y':
-        print("Your current itinerary is:")
-        for i in range(new_travel_locations.getNumberOfLocations()):
-            location = new_travel_locations.getLocation(i)
-            print(f'{location.name} - {location.current_weather.weather_description}')
-    else:
-        print("Okay, we'll continue.")
+        export_itinerary = input('Would you like to export your itinerary for GPS Navigation? (y/n)')
+        if export_itinerary == 'y':
+            export_locations()
+        else:
+            print("Okay, we'll continue.")
 
     # ask if the user would like to end the program
     user_input = input("Would you like to exit the program? (y/n): ")
@@ -124,3 +156,6 @@ while not exit_program:
         exit_program = True
     else:
         exit_program = False
+
+
+
