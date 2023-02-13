@@ -89,6 +89,51 @@ create_thread()
 exit_program = False
 
 
+def closest_location_selection():
+    next_location = 'y'
+    while next_location == 'y':
+        closest_location = travel_locations.next_closest_location(
+            new_travel_locations.getLocation(new_travel_locations.getNumberOfLocations() - 1))
+
+        # check if closest_location is empty
+        if closest_location.name == '':
+            break
+
+        next_location = input(
+            f"The closest location to your current location is {closest_location.name}. Would you like to go there next? (y/n)")
+        if next_location == 'y':
+            new_travel_locations.addLocation(closest_location)
+
+            if travel_locations.containsLocation(closest_location):
+                travel_locations.removeLocation(closest_location)
+
+            print("Great choice! I like your style!")
+        else:
+            print("Okay, we'll continue.")
+
+
+def weather_location_selection():
+    next_location = 'y'
+    while next_location == 'y':
+        best_location = travel_locations.getBestWeather()
+
+        # check if location is empty
+        if best_location.name == '':
+            break
+
+        next_location = input(
+            f"The next best weather is {best_location.name}. Would you like to go there next? (y/n)")
+        if next_location == 'y':
+            new_travel_locations.addLocation(best_location)
+
+            if travel_locations.containsLocation(best_location):
+                travel_locations.removeLocation(best_location)
+
+            print("Great choice! I like your style!")
+        else:
+            print("Okay, we'll continue.")
+
+
 while not exit_program:
 
     print_locations()
@@ -117,26 +162,13 @@ while not exit_program:
 
         print_locations()
 
-        next_location = 'y'
+        proximity_or_weather = input(
+            "Would you like to select the next location by proximity or weather? (p/w): ")
 
-        while next_location == 'y':
-            closest_location = travel_locations.next_closest_location(
-                new_travel_locations.getLocation(new_travel_locations.getNumberOfLocations() - 1))
-
-            # check if closest_location is empty
-            if closest_location.name == '':
-                break
-
-            next_location = input(f"The closest location to your current location is {closest_location.name}. Would you like to go there next? (y/n)")
-            if next_location == 'y':
-                new_travel_locations.addLocation(closest_location)
-
-                if travel_locations.containsLocation(closest_location):
-                    travel_locations.removeLocation(closest_location)
-
-                print("Great choice! I like your style!")
-            else:
-                print("Okay, we'll continue.")
+        if proximity_or_weather == 'p':
+            closest_location_selection()
+        else:
+            weather_location_selection()
 
     if new_travel_locations.getNumberOfLocations() != 0:
         show_itinery = input('Would you like to see your current itinerary? (y/n)')

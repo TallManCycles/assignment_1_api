@@ -72,14 +72,16 @@ class ListOfLocations:
     def exportLocations(self, filename):
         with open(filename, 'w') as file:
             for location in self.locations:
-                file.write(f'{location.name},{location.lat},{location.lon}\n')
+                file.write(f'{location.name},{location.lat},{location.lon},{location.current_weather.temp}\n')
 
 
 #     Get the location with the best weather from the list
     def getBestWeather(self):
-        best_weather = self.locations[0].current_weather
+        if len(self.locations) == 0:
+            return Location("", 0, 0)
+        best_weather = self.locations[0]
         for location in self.locations:
-            if location.current_weather.temp > best_weather.temp:
-                best_weather = location.current_weather
+            if location.current_weather.temp > best_weather.current_weather.temp:
+                best_weather = location
         return best_weather
 
