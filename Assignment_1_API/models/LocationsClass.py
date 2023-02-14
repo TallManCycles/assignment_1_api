@@ -1,6 +1,20 @@
 import math
 
+
 class Location:
+    """
+    Create a class that holds a location
+
+    Attributes:
+        name (str): The name of the location
+        lat (float): The latitude of the location
+        lon (float): The longitude of the location
+        current_weather (Weather): The current weather at the location
+
+    Functions:
+        __init__ (self, name, lat, lon, current_weather=None): The constructor for the Location class
+    """
+
     def __init__(self, name, lat, lon, current_weather=None):
         self.name = name
         self.lat = lat
@@ -10,6 +24,25 @@ class Location:
 
 # Create a class that holds a list of locations
 class ListOfLocations:
+    """
+    Create a class that holds a list of locations
+
+    Attributes:
+        locations (list): A list of Location objects
+
+    Functions:
+        __init__ (self): The constructor for the ListOfLocations class
+        addLocation (self, location): Add a location to the list
+        getLocations (self): Return the list of locations
+        getLocation (self, index): Return the location at the specified index
+        getNumberOfLocations (self): Return the number of locations in the list
+        getLocationByName (self, name): Return the location with the specified name
+        getLocationByCoordinates (self, lat, lon): Return the location with the specified coordinates
+        containsLocation (self, location): Return True if the location is in the list, False otherwise
+        removeLocation (self, location): Remove the location from the list
+        next_closest_location (self, location): Return the next closest location to the specified location
+        getBestWeather (self): Return the location with the best weather
+    """
     def __init__(self):
         self.locations = []
 

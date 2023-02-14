@@ -5,6 +5,13 @@ from models.LocationsClass import Location, ListOfLocations
 from models.WeatherClass import Weather
 
 
+"""
+This function tests the Location class.
+
+The test_add_location function creates a new ListOfLocations object and a new Location object.
+It then adds the Location object to the ListOfLocations object.
+It then checks that the Location object was added to the ListOfLocations object.
+"""
 def test_add_location():
     # create a new ListOfLocations object
     loc_list = ListOfLocations()
@@ -20,6 +27,13 @@ def test_add_location():
     assert loc_list.getLocations()[0] == loc
 
 
+"""
+This function tests the the retrieval of a location by name.
+
+The test_get_location_by_name function creates a new ListOfLocations object and two new Location objects.
+It then adds the Location objects to the ListOfLocations object.
+It then checks that the Location objects can be retrieved by name.
+"""
 def test_get_location_by_name():
     # create a new ListOfLocations object
     loc_list = ListOfLocations()
@@ -38,6 +52,14 @@ def test_get_location_by_name():
     assert loc_list.getLocationByName("London") is None
 
 
+"""
+This function tests removing a location from a list of locations.
+
+The test_remove_location function creates a new ListOfLocations object and two new Location objects.
+It then adds the Location objects to the ListOfLocations object.
+It then removes one of the Location objects from the ListOfLocations object.
+It then checks that the Location object was removed from the ListOfLocations object.
+"""
 def test_remove_location():
     # create a new ListOfLocations object
     loc_list = ListOfLocations()
@@ -58,6 +80,14 @@ def test_remove_location():
     assert loc_list.getLocations()[0] == loc2
 
 
+"""
+This function tests the retrieval of the next closest location in a list of locations.
+
+The test_next_closest_location function creates a new ListOfLocations object and three new Location objects.
+It then adds the Location objects to the ListOfLocations object.
+It then creates a new Location object to use as the current location.
+It then checks that the next closest location is correct.
+"""
 def test_next_closest_location():
     # create a new ListOfLocations object
     loc_list = ListOfLocations()
@@ -79,6 +109,15 @@ def test_next_closest_location():
     assert loc_list.next_closest_location(current_loc) == loc2
 
 
+"""
+This function tests exporting a list of locations to a file.
+
+The test_export_locations function creates a new ListOfLocations object and three new Location objects.
+It then adds dummy data for the weather to the Location objects.
+It then adds the Location objects to the ListOfLocations object.
+It then exports the ListOfLocations object to a file.
+It then checks that the file was created and that it contains the correct amount of lines.
+"""
 def test_export_locations():
     # create a new ListOfLocations object
     loc_list = ListOfLocations()

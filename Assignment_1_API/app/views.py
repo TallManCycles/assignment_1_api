@@ -10,6 +10,15 @@ import json
 def get_current_server_time(request):
     return HttpResponse(datetime.datetime.now())
 
+"""
+This function will load the travel locations from the server and display them to the user.
+
+attributes:
+    request: the request object
+    
+    returns:
+        HttpResponse: the response object
+"""
 @require_http_methods(["GET"], )
 def load_locations(request):
 

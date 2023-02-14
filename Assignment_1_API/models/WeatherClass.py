@@ -1,4 +1,29 @@
 class Weather:
+    """
+    Create a class that holds the weather data for a location
+
+    Attributes:
+        coordinates (dict): The coordinates of the location
+        weather (dict): The weather at the location
+        weather_main (str): The main weather at the location
+        weather_description (str): The description of the weather at the location
+        temp (float): The temperature at the location
+        feels_like (float): The temperature at the location that it feels like
+        temp_min (float): The minimum temperature at the location
+        temp_max (float): The maximum temperature at the location
+        pressure (int): The pressure at the location
+        humidity (int): The humidity at the location
+        visibility (int): The visibility at the location
+        wind (dict): The wind at the location
+        rain (dict): The rain at the location
+        clouds (dict): The clouds at the location
+        timezone (int): The timezone at the location
+        name: The name of the location
+
+    Functions:
+        __init__ (self, data): The constructor for the Weather class
+
+    """
     def __init__(self, data):
         if data:
             self.coordinates = data["coord"]

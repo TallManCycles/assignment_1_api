@@ -5,6 +5,12 @@ import Assignment_1_API.models.OpenWeather as OpenWeather
 import threading
 import time
 
+"""
+This program will load the travel locations from the server and display them to the user.
+The user will then be able to select a location and add it to their itinerary.
+The user will then be able to view their itinerary and export it to a text file.
+"""
+
 # creates a blank list of locations
 travel_locations = Locations.ListOfLocations()
 
@@ -15,7 +21,7 @@ def load_locations():
     try:
         response = requests.get("http://127.0.0.1:8000/app/load_locations/")
     except requests.exceptions.ConnectionError:
-        print("Error connecting to server. Please check your internet connection and try again.")
+        print("Error connecting to server. Please ensure the API server is running.")
         return
 
     # if the response is successful

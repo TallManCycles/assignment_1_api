@@ -9,7 +9,16 @@ API_KEY = ''
 with open("Assignment_1_API/api_key.txt", "r") as file:
     API_KEY = file.read()
 
-
+"""
+    This function returns a Weather object for a given location name.
+    The location name is used to get the latitude and longitude of the location.
+    The latitude and longitude are then used to get the weather data.
+    If the location name is not found, the function returns a string.
+    If the API key is not found, the function returns a string.
+    
+    :param location_name: the name of the location
+    :return: a Weather object or a string
+"""
 def getWeatherByCoordinates(lat, lon):
     if not API_KEY:
         return Weather('API key not found')
@@ -27,6 +36,16 @@ def getWeatherByCoordinates(lat, lon):
         return Weather('No weather data found')
 
 
+"""
+    This function returns a Weather object for a given location name.
+    The location name is used to get the latitude and longitude of the location.
+    The latitude and longitude are then used to get the weather data.
+    If the location name is not found, the function returns a string.
+    If the API key is not found, the function returns a string.
+    
+    :param location_name: the name of the location
+    :return: a Weather object or a string
+"""
 def getWeatherByLocation(location_name):
     if not API_KEY:
         return 'API key not found'
