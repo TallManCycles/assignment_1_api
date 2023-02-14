@@ -67,7 +67,7 @@ def print_locations():
 
 # exports the locations to a text file
 def export_locations():
-    new_travel_locations.exportLocations('itinerary.txt')
+    new_travel_locations.exportLocations('itinerary.csv')
     print("Your list has been exported successfully!")
 
 
