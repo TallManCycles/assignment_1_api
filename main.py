@@ -14,6 +14,16 @@ The user will then be able to view their itinerary and export it to a text file.
 # creates a blank list of locations
 travel_locations = Locations.ListOfLocations()
 
+# A decorator to check that the user has loaded the locations
+def check_locations_loaded(func):
+    def wrapper(*args, **kwargs):
+        if travel_locations.getNumberOfLocations() == 0:
+            print("Please load the locations first.")
+        else:
+            func(*args, **kwargs)
+
+    return wrapper
+
 
 # Loads the locations and weather from the server
 def load_locations():
@@ -63,9 +73,11 @@ def create_thread():
 
 
 # prints all locations and weather descriptions
+@check_locations_loaded
 def print_locations():
     global i, location
     # ask for input as an integer, and list all locations and weather descriptions
+
     for i in range(travel_locations.getNumberOfLocations()):
         location = travel_locations.getLocation(i)
         print(f'{i} - {location.name} - {location.current_weather.weather_description}')

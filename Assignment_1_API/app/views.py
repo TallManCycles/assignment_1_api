@@ -40,3 +40,19 @@ def load_locations(request):
 
     # Return the JSON string as an HttpResponse
     return HttpResponse(travel_locations_json, content_type='application/json', status=200)
+
+
+@require_http_methods(["PUT"],)
+def export_itinerary(request):
+    itinerary = Locations.ListOfLocations()
+
+    if request.body:
+        body = request.body
+        itinerary = json.loads(body)
+    else:
+        return HttpResponse("No itinerary provided", status=400)
+
+    itinerary.export_itinerary()
+
+    return HttpResponse("Itinerary exported successfully!", status=200)
+
